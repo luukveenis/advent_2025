@@ -19,9 +19,12 @@ def max_joltage(battery, count)
 end
 
 part1_result = []
+part2_result = []
 
 File.foreach(ARGV[0]) do |line|
   part1_result << max_joltage(line.strip, 2)
+  part2_result << max_joltage(line.strip, 12)
 end
 
 puts part1_result.sum
+puts part2_result.sum
