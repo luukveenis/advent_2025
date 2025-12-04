@@ -34,4 +34,19 @@ layout = File.readlines(ARGV[0]).map do |line|
   line.strip.chars
 end
 
-puts accessible_rolls(layout).size
+rolls = accessible_rolls(layout)
+
+puts "Part 1: #{rolls.size}"
+
+rolls_removed = 0
+
+while (rolls.size > 0)
+  # Remove the rolls from layout and increase the count
+  rolls.each { |x, y| layout[x][y] = "." }
+  rolls_removed += rolls.size
+
+  # Get the next set of rolls to be removed
+  rolls = accessible_rolls(layout)
+end
+
+puts "Part 2: #{rolls_removed}"
