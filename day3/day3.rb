@@ -1,28 +1,27 @@
-def max_joltage(battery)
-  first = battery[0].to_i
-  second = battery[1].to_i
+def max_joltage(battery, count)
+  result = []
+  next_start = 0
 
-  (1...battery.length - 1).each do |i|
-    current = battery[i].to_i
-    ahead = battery[i + 1].to_i
+  (0...count).each do |i|
+    max = 0
 
-    if (current > first)
-      first = current
-      second = ahead
-    elsif (ahead > second)
-      second = ahead
-    else
-      # Do nothing, not an improvement
+    (next_start..battery.length - count + i).each do |j|
+      if (battery[j].to_i > max)
+        max = battery[j].to_i
+        next_start = j + 1
+      end
     end
+
+    result << max
   end
 
-  "#{first}#{second}".to_i
+  result.join.to_i
 end
 
-joltages = []
+part1_result = []
 
 File.foreach(ARGV[0]) do |line|
-  joltages << max_joltage(line.strip)
+  part1_result << max_joltage(line.strip, 2)
 end
 
-puts joltages.sum
+puts part1_result.sum
