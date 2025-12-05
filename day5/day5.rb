@@ -4,7 +4,7 @@ class InventoryManager
     @available = available
   end
 
-  def fresh_ingredients
+  def available_fresh
     @available.select(&method(:is_fresh?))
   end
 
@@ -29,4 +29,4 @@ end
 fresh, available = parse_input(ARGV[0])
 manager = InventoryManager.new(fresh, available)
 
-puts "Part 1: #{manager.fresh_ingredients.size }"
+puts "Part 1: #{manager.available_fresh.size }"
