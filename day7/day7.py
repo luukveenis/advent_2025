@@ -20,13 +20,19 @@ def count_splits(input: list[list[str]]) -> int:
 
     return splits
 
-def follow_timeline(input: list[list[str]], i: int, j: int) -> int:
+def follow_timeline(input: list[list[str]], i: int, j: int, memo: dict[tuple[int, int], int]) -> int:
     if (i == len(input) - 1):
         return 1
+    elif ((i, j) in memo):
+        return memo[(i, j)]
     elif (input[i][j] == "."):
-        return follow_timeline(input, i + 1, j)
+        paths = follow_timeline(input, i + 1, j, memo)
+        memo[(i, j)] = paths
+        return paths
     elif (input[i][j] == "^"):
-        return follow_timeline(input, i, j - 1) + follow_timeline(input, i, j + 1)
+        paths = follow_timeline(input, i, j - 1, memo) + follow_timeline(input, i, j + 1, memo)
+        memo[(i, j)] = paths
+        return paths
     else:
         return 0
 
@@ -34,7 +40,7 @@ def follow_timeline(input: list[list[str]], i: int, j: int) -> int:
 # to count the total number of paths a tachyon can follow to the bottom
 def quantum(input: list[list[str]]) -> int:
     start = input[0].index("S")
-    return follow_timeline(input, 1, start)
+    return follow_timeline(input, 1, start, {})
 
 
 with open(sys.argv[1], "r") as file:
